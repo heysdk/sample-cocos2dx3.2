@@ -1,10 +1,9 @@
 #ifndef __HELLOWORLD_SCENE_H__
 #define __HELLOWORLD_SCENE_H__
 
-#include "cc3/HeyLayer.h"
 #include "cocos2d.h"
 
-class HelloWorld : public HeyLayer
+class HelloWorld : public cocos2d::Layer
 {
 public:
     // there's no 'id' in cpp, so we recommend returning the class instance pointer

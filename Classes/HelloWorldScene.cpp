@@ -22,7 +22,7 @@ bool HelloWorld::init()
 {
     //////////////////////////////
     // 1. super init first
-    if ( !HeyLayer::init() )
+    if ( !Layer::init() )
     {
         return false;
     }
