@@ -2,6 +2,7 @@
 #define __HELLOWORLD_SCENE_H__
 
 #include "cocos2d.h"
+#include <UIScrollView.h>
 
 class HelloWorld : public cocos2d::Layer
 {
@@ -23,6 +24,17 @@ public:
 
     // implement the "static create()" method manually
     CREATE_FUNC(HelloWorld);
+    
+    //滚动显示框
+    cocos2d::ui::ScrollView* scrollView;
+    
+    //滚动显示框_高度
+    int scrollView_height;
+    //滚动显示框_行数
+    int scrollView_line;
+    
+    //增加输出
+    void addLog(cocos2d::__String str);
 };
 
 #endif // __HELLOWORLD_SCENE_H__

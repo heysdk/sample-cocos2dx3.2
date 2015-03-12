@@ -30,6 +30,33 @@ bool AppDelegate::applicationDidFinishLaunching() {
         glview = GLViewImpl::create("My Game");
         director->setOpenGLView(glview);
     }
+    
+    //适配设备分辨率
+    auto sizeWidth = director->getWinSizeInPixels().width;
+    auto sizeHeight = director->getWinSizeInPixels().height;
+    
+    auto w = sizeWidth;
+    auto h = sizeHeight;
+
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
+    
+    auto fw = w / 960;
+    auto fh = h / 640;
+    
+    if(fw >= fh)
+    {
+        w = sizeWidth * 640 / sizeHeight;
+        h = 640;
+    }
+    else
+    {
+        w = 960;
+        h = sizeHeight * 960 / sizeWidth;
+    }
+    
+#endif
+    //修改设计分辨率
+    glview->setDesignResolutionSize ( w, h, ResolutionPolicy::SHOW_ALL );
 
     // turn on display FPS
     director->setDisplayStats(true);

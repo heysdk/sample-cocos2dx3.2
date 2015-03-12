@@ -1,5 +1,6 @@
 #include "HelloWorldScene.h"
 
+
 USING_NS_CC;
 
 Scene* HelloWorld::createScene()
@@ -43,50 +44,55 @@ bool HelloWorld::init()
 	closeItem->setPosition(Vec2(origin.x + visibleSize.width - closeItem->getContentSize().width/2 ,
                                 origin.y + closeItem->getContentSize().height/2));
 
+    //登陆按钮
     auto loginItem = MenuItemImage::create(
-                                           "login.png",
-                                           "login.png",
+                                           "login1.png",
+                                           "login2.png",
                                            CC_CALLBACK_1(HelloWorld::menuLoginCallback, this));
 
-    loginItem->setPosition(Vec2(origin.x + visibleSize.width/2 - loginItem->getContentSize().width ,
-                                origin.y + loginItem->getContentSize().height/2));
+    loginItem->setPosition(Vec2(origin.x + visibleSize.width / 2 - loginItem->getContentSize().width / 2,
+                                origin.y + visibleSize.height / 2 - 200));
 
+    //支付按钮
     auto payItem = MenuItemImage::create(
-                                           "pay.png",
-                                           "pay.png",
+                                           "pay1.png",
+                                           "pay2.png",
                                            CC_CALLBACK_1(HelloWorld::menuPayCallback, this));
 
-    payItem->setPosition(Vec2(origin.x + visibleSize.width/2 + payItem->getContentSize().width ,
-                                origin.y + payItem->getContentSize().height/2));
+    payItem->setPosition(Vec2(origin.x + visibleSize.width / 2 + payItem->getContentSize().width / 2,
+                              origin.y + visibleSize.height / 2 - 200));
 
     // create menu, it's an autorelease object
     auto menu = Menu::create(closeItem, loginItem, payItem, NULL);
     menu->setPosition(Vec2::ZERO);
     this->addChild(menu, 1);
 
-    /////////////////////////////
-    // 3. add your codes below...
-
-    // add a label shows "Hello World"
-    // create and initialize a label
-    
-    auto label = Label::createWithTTF("Hello World", "fonts/Marker Felt.ttf", 24);
-    
-    // position the label on the center of the screen
-    label->setPosition(Vec2(origin.x + visibleSize.width/2,
-                            origin.y + visibleSize.height - label->getContentSize().height));
-
-    // add the label as a child to this layer
-    this->addChild(label, 1);
-
-    // add "HelloWorld" splash screen"
-    auto sprite = Sprite::create("HelloWorld.png");
+    auto back = LayerColor::create(Color4B(116, 196, 249, 255), 960, 640);
 
     // position the sprite on the center of the screen
-    sprite->setPosition(Vec2(visibleSize.width/2 + origin.x, visibleSize.height/2 + origin.y));
+//    back->setAnchorPoint(Vec2(0.5, 0.5));
+    back->setPosition(Vec2((visibleSize.width - 960) / 2, (visibleSize.height - 640) /2));
+    this->addChild(back, 0);
 
+    auto logo = Sprite::create("logo.png");
+    logo->setPosition(Vec2(visibleSize.width/2 + origin.x + 30, visibleSize.height/2 + origin.y + 150));
+    
     // add the sprite as a child to this layer
-    this->addChild(sprite, 0);
+    this->addChild(logo, 0);
+
+    //显示框
+    scrollView = cocos2d::ui::ScrollView::create();
+
+    scrollView_height = 200;
+    
+    scrollView->setSize(Size(600, 200));
+    scrollView->setInnerContainerSize(Size(600, scrollView_height));
+    scrollView->setBackGroundColor(Color3B(0, 0, 0));
+    
+    this->addChild(scrollView);
+    scrollView->setPosition(Vec2((960 - 600) / 2, 180));
+    
+    scrollView_line = 0;
     
     return true;
 }
@@ -106,10 +112,36 @@ void HelloWorld::menuCloseCallback(Ref* pSender)
 #endif
 }
 
+void HelloWorld::addLog(cocos2d::__String str)
+{
+    Label* label = Label::create();
+    
+    label->setSystemFontSize(24);
+    
+    label->setString(str.getCString());
+    
+    label->setAnchorPoint(Vec2(0, 0));
+    
+    label->setPosition(Vec2(0, scrollView_line * 26));
+    
+    scrollView_line ++;
+    
+    scrollView->addChild(label);
+    
+    int h = 200;
+    if(scrollView_line * 26 > h)
+        h = scrollView_line * 26;
+    
+    scrollView->setInnerContainerSize(Size(600, h));
+    
+}
+
 void HelloWorld::menuLoginCallback(Ref* pSender)
 {
+    addLog("点击登陆按钮");
 }
 
 void HelloWorld::menuPayCallback(Ref* pSender)
 {
+    addLog("点击充值按钮");
 }
