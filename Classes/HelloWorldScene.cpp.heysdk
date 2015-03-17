@@ -168,3 +168,8 @@ void HelloWorld::onConfigInfo(heysdk::HeySDKPaySchemeInfo& psi, heysdk::HeySDKGa
         mProductID = psi.lstProduct[i].productid;
     }
 }
+
+void HelloWorld::onPayment(heysdk::HeySDKPayment& payment)
+{
+    
+}
