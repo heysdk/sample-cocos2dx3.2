@@ -1,0 +1,48 @@
+#ifndef __HELLOWORLD_SCENE_H__
+#define __HELLOWORLD_SCENE_H__
+
+#include <HeySDK.h>
+#include "cocos2d.h"
+#include <UIScrollView.h>
+
+class HelloWorld : public cocos2d::Layer, public heysdk::HeySDKListener
+{
+    virtual void onLogin(heysdk::HeySDKUserInfo& ui, heysdk::HeySDKUserPlatformInfo& pui);
+
+    virtual void onConfigInfo(heysdk::HeySDKPaySchemeInfo& psi, heysdk::HeySDKGameConfig& cfg);
+
+    virtual const char* getName() { return "helloworldscene"; }
+public:
+    // there's no 'id' in cpp, so we recommend returning the class instance pointer
+    static cocos2d::Scene* createScene();
+
+    // Here's a difference. Method 'init' in cocos2d-x returns bool, instead of returning 'id' in cocos2d-iphone
+    virtual bool init();
+    
+    // a selector callback
+    void menuCloseCallback(cocos2d::Ref* pSender);
+    
+    // a selector callback
+    void menuLoginCallback(cocos2d::Ref* pSender);
+
+    // a selector callback
+    void menuPayCallback(cocos2d::Ref* pSender);
+
+    // implement the "static create()" method manually
+    CREATE_FUNC(HelloWorld);
+    
+    //滚动显示框
+    cocos2d::ui::ScrollView* scrollView;
+    
+    //滚动显示框_高度
+    int scrollView_height;
+    //滚动显示框_行数
+    int scrollView_line;
+    
+    //增加输出
+    void addLog(cocos2d::__String str);
+protected:
+    std::string     mProductID;
+};
+
+#endif // __HELLOWORLD_SCENE_H__
