@@ -11,7 +11,7 @@ class HelloWorld : public cocos2d::Layer, public heysdk::HeySDKListener
 
     virtual void onConfigInfo(heysdk::HeySDKPaySchemeInfo& psi, heysdk::HeySDKGameConfig& cfg);
     
-    virtual void onPayment(heysdk::HeySDKPayment& payment);
+    virtual void onPayment(bool isOK, heysdk::HeySDKPayment& payment);
 
     virtual const char* getName() { return "helloworldscene"; }
 public:

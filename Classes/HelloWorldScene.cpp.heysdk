@@ -147,7 +147,7 @@ void HelloWorld::menuLoginCallback(Ref* pSender)
 void HelloWorld::menuPayCallback(Ref* pSender)
 {
     addLog("点击充值按钮");
-    heysdk::HeySDK::getSingleton()->pay(mProductID.c_str());
+    heysdk::HeySDK::getSingleton()->pay(mProductID.c_str(), "");
 }
 
 void HelloWorld::onLogin(heysdk::HeySDKUserInfo& ui, heysdk::HeySDKUserPlatformInfo& pui)
@@ -169,7 +169,7 @@ void HelloWorld::onConfigInfo(heysdk::HeySDKPaySchemeInfo& psi, heysdk::HeySDKGa
     }
 }
 
-void HelloWorld::onPayment(heysdk::HeySDKPayment& payment)
+void HelloWorld::onPayment(bool isOK, heysdk::HeySDKPayment& payment)
 {
     
 }
