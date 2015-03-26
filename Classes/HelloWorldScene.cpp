@@ -45,7 +45,7 @@ bool HelloWorld::init()
                                 origin.y + closeItem->getContentSize().height/2));
 
     //登陆按钮
-    auto loginItem = MenuItemImage::create(
+    loginItem = MenuItemImage::create(
                                            "login1.png",
                                            "login2.png",
                                            CC_CALLBACK_1(HelloWorld::menuLoginCallback, this));
