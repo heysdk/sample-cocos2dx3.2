@@ -21,6 +21,10 @@
 		1AC6FB30180E99EB004C840B /* libcocos2d iOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1AC6FB07180E9839004C840B /* libcocos2d iOS.a */; };
 		1D60589F0D05DD5A006BFB54 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D30AB110D05D00D00671497 /* Foundation.framework */; };
 		1DF5F4E00D08C38300B7A737 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1DF5F4DF0D08C38300B7A737 /* UIKit.framework */; };
+		25DCBB5A1AC3FA4A007982FF /* switch1.png in Resources */ = {isa = PBXBuildFile; fileRef = 25DCBB581AC3FA4A007982FF /* switch1.png */; };
+		25DCBB5B1AC3FA4A007982FF /* switch1.png in Resources */ = {isa = PBXBuildFile; fileRef = 25DCBB581AC3FA4A007982FF /* switch1.png */; };
+		25DCBB5C1AC3FA4A007982FF /* switch2.png in Resources */ = {isa = PBXBuildFile; fileRef = 25DCBB591AC3FA4A007982FF /* switch2.png */; };
+		25DCBB5D1AC3FA4A007982FF /* switch2.png in Resources */ = {isa = PBXBuildFile; fileRef = 25DCBB591AC3FA4A007982FF /* switch2.png */; };
 		288765A50DF7441C002DB57D /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 288765A40DF7441C002DB57D /* CoreGraphics.framework */; };
 		3EACC98F19EE6D4300EB3C5E /* res in Resources */ = {isa = PBXBuildFile; fileRef = 3EACC98E19EE6D4300EB3C5E /* res */; };
 		3EACC99019EE6D4300EB3C5E /* res in Resources */ = {isa = PBXBuildFile; fileRef = 3EACC98E19EE6D4300EB3C5E /* res */; };
@@ -118,6 +122,8 @@
 		1D30AB110D05D00D00671497 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		1D6058910D05DD3D006BFB54 /* newprojcc3 iOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "newprojcc3 iOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		1DF5F4DF0D08C38300B7A737 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		25DCBB581AC3FA4A007982FF /* switch1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = switch1.png; sourceTree = "<group>"; };
+		25DCBB591AC3FA4A007982FF /* switch2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = switch2.png; sourceTree = "<group>"; };
 		288765A40DF7441C002DB57D /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		3EACC98E19EE6D4300EB3C5E /* res */ = {isa = PBXFileReference; lastKnownFileType = folder; path = res; sourceTree = "<group>"; };
 		46880B7619C43A67006E1F66 /* CloseNormal.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = CloseNormal.png; sourceTree = "<group>"; };
@@ -282,15 +288,17 @@
 		46880B7519C43A67006E1F66 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				181EE1571AB14D410011F292 /* login2.png */,
-				181EE1581AB14D410011F292 /* pay2.png */,
-				181EE14E1AB148220011F292 /* login1.png */,
-				181EE14F1AB148220011F292 /* logo.png */,
-				181EE1501AB148220011F292 /* pay1.png */,
-				521A8EA819F11F5000D177D7 /* fonts */,
-				3EACC98E19EE6D4300EB3C5E /* res */,
+				25DCBB581AC3FA4A007982FF /* switch1.png */,
+				25DCBB591AC3FA4A007982FF /* switch2.png */,
 				46880B7619C43A67006E1F66 /* CloseNormal.png */,
 				46880B7719C43A67006E1F66 /* CloseSelected.png */,
+				521A8EA819F11F5000D177D7 /* fonts */,
+				181EE14E1AB148220011F292 /* login1.png */,
+				181EE1571AB14D410011F292 /* login2.png */,
+				181EE14F1AB148220011F292 /* logo.png */,
+				181EE1501AB148220011F292 /* pay1.png */,
+				181EE1581AB14D410011F292 /* pay2.png */,
+				3EACC98E19EE6D4300EB3C5E /* res */,
 			);
 			name = Resources;
 			path = ../Resources;
@@ -451,6 +459,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				5087E78117EB970100C73F5D /* Icon-120.png in Resources */,
+				25DCBB5A1AC3FA4A007982FF /* switch1.png in Resources */,
 				5087E78617EB970100C73F5D /* Icon-76.png in Resources */,
 				5087E77F17EB970100C73F5D /* Default@2x.png in Resources */,
 				50EF629917ECD46A001EB2F8 /* Icon-100.png in Resources */,
@@ -474,6 +483,7 @@
 				5087E77E17EB970100C73F5D /* Default.png in Resources */,
 				521A8E6419F0C34300D177D7 /* Default-667h@2x.png in Resources */,
 				46880B7B19C43A67006E1F66 /* CloseNormal.png in Resources */,
+				25DCBB5C1AC3FA4A007982FF /* switch2.png in Resources */,
 				50EF629717ECD46A001EB2F8 /* Icon-58.png in Resources */,
 				181EE1511AB148220011F292 /* login1.png in Resources */,
 				181EE15B1AB14D410011F292 /* pay2.png in Resources */,
@@ -490,9 +500,11 @@
 				3EACC99019EE6D4300EB3C5E /* res in Resources */,
 				521A8EAA19F11F5000D177D7 /* fonts in Resources */,
 				181EE15C1AB14D410011F292 /* pay2.png in Resources */,
+				25DCBB5D1AC3FA4A007982FF /* switch2.png in Resources */,
 				181EE1541AB148220011F292 /* logo.png in Resources */,
 				46880B7C19C43A67006E1F66 /* CloseNormal.png in Resources */,
 				181EE1521AB148220011F292 /* login1.png in Resources */,
+				25DCBB5B1AC3FA4A007982FF /* switch1.png in Resources */,
 				46880B7E19C43A67006E1F66 /* CloseSelected.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -564,7 +576,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				LIBRARY_SEARCH_PATHS = "";
 				SDKROOT = iphoneos;
-				TARGETED_DEVICE_FAMILY = 1;
+				TARGETED_DEVICE_FAMILY = "1,2";
 				USER_HEADER_SEARCH_PATHS = "";
 				VALID_ARCHS = "arm64 armv7";
 			};
@@ -594,7 +606,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				LIBRARY_SEARCH_PATHS = "";
 				SDKROOT = iphoneos;
-				TARGETED_DEVICE_FAMILY = 1;
+				TARGETED_DEVICE_FAMILY = "1,2";
 				USER_HEADER_SEARCH_PATHS = "";
 				VALID_ARCHS = "arm64 armv7";
 			};
