@@ -52,15 +52,24 @@ bool HelloWorld::init()
 
     loginItem->setPosition(Vec2(origin.x + visibleSize.width / 2 - loginItem->getContentSize().width / 2,
                                 origin.y + visibleSize.height / 2 - 200));
-
+    
+    //切换按钮
+    switchItem = MenuItemImage::create(
+                                       "switch1.png",
+                                       "switch2.png",
+                                       CC_CALLBACK_1(HelloWorld::menuSwitchCallback, this));
+    
+    switchItem->setPosition(Vec2(origin.x + visibleSize.width / 2 - switchItem->getContentSize().width / 2,
+                                 origin.y + visibleSize.height / 2 - 200));
+    
     //支付按钮
-    auto payItem = MenuItemImage::create(
-                                           "pay1.png",
-                                           "pay2.png",
-                                           CC_CALLBACK_1(HelloWorld::menuPayCallback, this));
-
-    payItem->setPosition(Vec2(origin.x + visibleSize.width / 2 + payItem->getContentSize().width / 2,
-                              origin.y + visibleSize.height / 2 - 200));
+//    auto payItem = MenuItemImage::create(
+//                                           "pay1.png",
+//                                           "pay2.png",
+//                                           CC_CALLBACK_1(HelloWorld::menuPayCallback, this));
+//
+//    payItem->setPosition(Vec2(origin.x + visibleSize.width / 2 + payItem->getContentSize().width / 2,
+//                              origin.y + visibleSize.height / 2 - 200));
 
     // create menu, it's an autorelease object
     auto menu = Menu::create(closeItem, loginItem, payItem, NULL);
@@ -79,6 +88,13 @@ bool HelloWorld::init()
     
     // add the sprite as a child to this layer
     this->addChild(logo, 0);
+    
+    loadingImg = Sprite::create("logo.png");
+    loadingImg->setPosition(Vec2(visibleSize.width/2 + origin.x + 30, visibleSize.height/2 + origin.y + 150));
+    this->addChild(loadingImg, 0);
+    
+    RotateBy* rb = RotateBy::create(0.1f, 30);
+    loadingImg->runAction(RepeatForever::create(rb));
 
     //显示框
     scrollView = cocos2d::ui::ScrollView::create();
@@ -93,6 +109,8 @@ bool HelloWorld::init()
     scrollView->setPosition(Vec2((960 - 600) / 2, 180));
     
     scrollView_line = 0;
+    
+    showLoading(false);
     
     return true;
 }
@@ -138,10 +156,40 @@ void HelloWorld::addLog(cocos2d::__String str)
 
 void HelloWorld::menuLoginCallback(Ref* pSender)
 {
+    if(loadingImg->isVisible())
+        return;
+    
     addLog("点击登陆按钮");
+    
+    loginItem->setEnabled(false);
 }
 
 void HelloWorld::menuPayCallback(Ref* pSender)
 {
-    addLog("点击充值按钮");
+    if(loadingImg->isVisible())
+        return;
+    
+    int i = arrayOfItems.getIndex((MenuItem*)pSender);
+    
+    char str[128];
+    sprintf(str, "点击充值按钮 %s", mProductIDArray.at(i).asString().c_str());
+    addLog(str);
+    
+    loadingImg->setVisible(true);
 }
+
+void HelloWorld::menuSwitchCallback(Ref* pSender)
+{
+    if(loadingImg->isVisible())
+        return;
+    
+    addLog("点击切换按钮");
+}
+
+void HelloWorld::showLoading(bool bShow)
+{
+    loadingImg->setVisible(bShow);
+}
+
+
+

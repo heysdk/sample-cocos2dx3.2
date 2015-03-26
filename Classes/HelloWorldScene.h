@@ -21,6 +21,7 @@ public:
 
     // a selector callback
     void menuPayCallback(cocos2d::Ref* pSender);
+    void menuSwitchCallback(cocos2d::Ref* pSender);
 
     // implement the "static create()" method manually
     CREATE_FUNC(HelloWorld);
@@ -35,6 +36,21 @@ public:
     
     //增加输出
     void addLog(cocos2d::__String str);
+    
+    //loading圈
+    void showLoading(bool bShow);
+    
+protected:
+    std::string     mProductID;
+    cocos2d::ValueVector mProductIDArray;
+    
+public:
+    cocos2d::MenuItem* loginItem;
+    cocos2d::MenuItem* payItem;
+    cocos2d::MenuItem* switchItem;
+    cocos2d::Sprite* loadingImg;
+    
+    cocos2d::Vector<cocos2d::MenuItem*> arrayOfItems;
 };
 
 #endif // __HELLOWORLD_SCENE_H__

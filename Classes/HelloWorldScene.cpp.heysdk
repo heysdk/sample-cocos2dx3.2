@@ -45,25 +45,34 @@ bool HelloWorld::init()
                                 origin.y + closeItem->getContentSize().height/2));
 
     //登陆按钮
-    auto loginItem = MenuItemImage::create(
+    loginItem = MenuItemImage::create(
                                            "login1.png",
                                            "login2.png",
                                            CC_CALLBACK_1(HelloWorld::menuLoginCallback, this));
 
     loginItem->setPosition(Vec2(origin.x + visibleSize.width / 2 - loginItem->getContentSize().width / 2,
                                 origin.y + visibleSize.height / 2 - 200));
+    
+    //切换按钮
+    switchItem = MenuItemImage::create(
+                                           "switch1.png",
+                                           "switch2.png",
+                                           CC_CALLBACK_1(HelloWorld::menuSwitchCallback, this));
+    
+    switchItem->setPosition(Vec2(origin.x + visibleSize.width / 2 - switchItem->getContentSize().width / 2,
+                                origin.y + visibleSize.height / 2 - 200));
 
     //支付按钮
-    auto payItem = MenuItemImage::create(
-                                           "pay1.png",
-                                           "pay2.png",
-                                           CC_CALLBACK_1(HelloWorld::menuPayCallback, this));
-
-    payItem->setPosition(Vec2(origin.x + visibleSize.width / 2 + payItem->getContentSize().width / 2,
-                              origin.y + visibleSize.height / 2 - 200));
+//    payItem = MenuItemImage::create(
+//                                           "pay1.png",
+//                                           "pay2.png",
+//                                           CC_CALLBACK_1(HelloWorld::menuPayCallback, this));
+//
+//    payItem->setPosition(Vec2(origin.x + visibleSize.width / 2 + payItem->getContentSize().width / 2,
+//                              origin.y + visibleSize.height / 2 - 200));
 
     // create menu, it's an autorelease object
-    auto menu = Menu::create(closeItem, loginItem, payItem, NULL);
+    auto menu = Menu::create(closeItem, loginItem, switchItem, NULL);
     menu->setPosition(Vec2::ZERO);
     this->addChild(menu, 1);
 
@@ -79,6 +88,13 @@ bool HelloWorld::init()
     
     // add the sprite as a child to this layer
     this->addChild(logo, 0);
+    
+    loadingImg = Sprite::create("logo.png");
+    loadingImg->setPosition(Vec2(visibleSize.width/2 + origin.x + 30, visibleSize.height/2 + origin.y + 150));
+    this->addChild(loadingImg, 0);
+    
+    RotateBy* rb = RotateBy::create(0.1f, 30);
+    loadingImg->runAction(RepeatForever::create(rb));
 
     //显示框
     scrollView = cocos2d::ui::ScrollView::create();
@@ -93,6 +109,22 @@ bool HelloWorld::init()
     scrollView->setPosition(Vec2((960 - 600) / 2, 180));
     
     scrollView_line = 0;
+    
+    showLoading(false);
+    
+    //! 自动登录
+    const heysdk::HeySDKConfig cfg = heysdk::HeySDK::getSingleton()->getConfig();
+    
+    if(cfg.isAllowAutoLogin)
+    {
+        loginItem->setVisible(false);
+        switchItem->setVisible(true);
+    }
+    else
+    {
+        loginItem->setVisible(true);
+        switchItem->setVisible(false);
+    }
     
     heysdk::HeySDK::getSingleton()->addListener(this);
     
@@ -140,25 +172,60 @@ void HelloWorld::addLog(cocos2d::__String str)
 
 void HelloWorld::menuLoginCallback(Ref* pSender)
 {
+    if(loadingImg->isVisible())
+        return;
+    
     addLog("点击登陆按钮");
+    
+    loginItem->setEnabled(false);
+    
     heysdk::HeySDK::getSingleton()->login();
 }
 
 void HelloWorld::menuPayCallback(Ref* pSender)
 {
-    addLog("点击充值按钮");
-    heysdk::HeySDK::getSingleton()->pay(mProductID.c_str(), "");
+    if(loadingImg->isVisible())
+        return;
+    
+    int i = arrayOfItems.getIndex((MenuItem*)pSender);
+    
+    char str[128];
+    sprintf(str, "点击充值按钮 %s", mProductIDArray.at(i).asString().c_str());
+    addLog(str);
+ 
+    loadingImg->setVisible(true);
+    
+    heysdk::HeySDK::getSingleton()->pay(mProductIDArray.at(i).asString().c_str(), "");
+}
+
+void HelloWorld::menuSwitchCallback(Ref* pSender)
+{
+    if(loadingImg->isVisible())
+        return;
+    
+    addLog("点击切换按钮");
 }
 
 void HelloWorld::onLogin(heysdk::HeySDKUserInfo& ui, heysdk::HeySDKUserPlatformInfo& pui)
 {
+    loginItem->setVisible(false);
+    switchItem->setVisible(true);
+    
     char str[10240];
     sprintf(str, "%lld login %s with %s(%s)", ui.uid, pui.pname.c_str(), pui.nickname.c_str(), pui.puname.c_str());
     addLog(str);
 }
 
+void HelloWorld::showLoading(bool bShow)
+{
+    loadingImg->setVisible(bShow);
+}
+
 void HelloWorld::onConfigInfo(heysdk::HeySDKPaySchemeInfo& psi, heysdk::HeySDKGameConfig& cfg)
 {
+    arrayOfItems.clear();
+    mProductIDArray.clear();
+    
     addLog("收到配置信息");
     for (size_t i = 0; i < psi.lstProduct.size(); ++i) {
         char str[1024];
@@ -166,10 +233,59 @@ void HelloWorld::onConfigInfo(heysdk::HeySDKPaySchemeInfo& psi, heysdk::HeySDKGa
         addLog(str);
         
         mProductID = psi.lstProduct[i].productid;
+        mProductIDArray.push_back(Value(mProductID));
+        
+        Size visibleSize = Director::getInstance()->getVisibleSize();
+        Vec2 origin = Director::getInstance()->getVisibleOrigin();
+        
+        //支付按钮
+        auto item = MenuItemImage::create(
+                                        "pay1.png",
+                                        "pay2.png",
+                                        CC_CALLBACK_1(HelloWorld::menuPayCallback, this));
+        
+        item->setPosition(Vec2(origin.x + visibleSize.width / 2 + item->getContentSize().width / 2,
+                                  origin.y + visibleSize.height / 2 - 250 + 100 * i));
+        
+        arrayOfItems.pushBack(item);
+        
+        Label* label = Label::create();
+        label->setSystemFontSize(24);
+        label->setString(psi.lstProduct[i].name.c_str());
+        label->setPosition(Vec2(item->getContentSize().width / 2, item->getContentSize().height / 2 + 23));
+        
+        item->addChild(label);
+        
+        
+        Label* info = Label::create();
+        info->setSystemFontSize(20);
+        info->setString(psi.lstProduct[i].info.c_str());
+        info->setPosition(Vec2(item->getContentSize().width / 2, item->getContentSize().height / 2 - 3));
+        
+        item->addChild(info);
+        
+        Label* price = Label::create();
+        price->setSystemFontSize(20);
+        char str1[128];
+        sprintf(str1, "%d元", psi.lstProduct[i].amount / 100);
+        price->setString(str1);
+        price->setPosition(Vec2(item->getContentSize().width / 2, item->getContentSize().height / 2 - 27));
+        
+        item->addChild(price);
     }
+    
+    auto menu = Menu::createWithArray(arrayOfItems);
+    
+    menu->setPosition(Vec2::ZERO);
+    this->addChild(menu, 1);
 }
 
 void HelloWorld::onPayment(bool isOK, heysdk::HeySDKPayment& payment)
 {
+    loadingImg->setVisible(false);
     
+    if(isOK)
+    {
+        
+    }
 }
